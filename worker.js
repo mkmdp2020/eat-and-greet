@@ -9,7 +9,7 @@ export default {
         return new Response('Invalid provider', { status: 400 });
       }
       const authUrl = new URL('https://github.com/login/oauth/authorize');
-      authUrl.searchParams.set('client_id', env.GITHUB_CLIENT_ID);
+      authUrl.searchParams.set('client_id', 'Ov23liXFvRW9lnPpBFp2');
       authUrl.searchParams.set('scope', 'repo,user');
       return Response.redirect(authUrl.toString(), 302);
     }
@@ -28,7 +28,7 @@ export default {
           'Accept': 'application/json',
         },
         body: JSON.stringify({
-          client_id:     env.GITHUB_CLIENT_ID,
+          client_id:     'Ov23liXFvRW9lnPpBFp2',
           client_secret: env.GITHUB_CLIENT_SECRET,
           code,
         }),
