@@ -1,0 +1,109 @@
+backend:
+  name: github
+  repo: mkmdp2020/eat-and-greet
+  branch: main
+
+media_folder: public
+public_folder: /public
+
+collections:
+  - name: settings
+    label: Site Settings
+    files:
+      - name: settings
+        label: All Site Content
+        file: content/settings.json
+        format: json
+        fields:
+
+          # ── Business Info ──
+          - label: Business Info
+            name: site
+            widget: object
+            fields:
+              - { label: Business Name, name: name, widget: string }
+              - { label: Tagline, name: tagline, widget: string }
+              - { label: Short Description (Hero), name: description, widget: text }
+              - { label: Logo, name: logo, widget: image, required: false }
+              - { label: Email, name: email, widget: string }
+              - { label: Phone / WhatsApp, name: phone, widget: string, required: false }
+              - { label: Registered Address, name: address, widget: string }
+              - { label: Registered Company Name, name: company, widget: string }
+              - { label: Service Area, name: service_area, widget: string }
+              - { label: Min Guests, name: min_guests, widget: number }
+              - { label: Max Guests, name: max_guests, widget: number }
+              - { label: Opening Hours, name: hours, widget: string }
+
+          # ── Hero Section ──
+          - label: Hero Section
+            name: hero
+            widget: object
+            fields:
+              - { label: Badge Text, name: badge, widget: string }
+              - { label: Main Heading, name: heading, widget: string }
+              - { label: Sub Text, name: subtext, widget: text }
+
+          # ── About Section ──
+          - label: About Section
+            name: about
+            widget: object
+            fields:
+              - { label: Heading, name: heading, widget: string }
+              - { label: Body Text, name: body, widget: text }
+              - label: Feature Items
+                name: features
+                widget: list
+                fields:
+                  - { label: Icon (emoji), name: icon, widget: string }
+                  - { label: Title, name: title, widget: string }
+                  - { label: Detail, name: detail, widget: text }
+
+          # ── Menu ──
+          - label: Menu
+            name: menu
+            widget: object
+            fields:
+              - label: South Indian Spotlight Dishes
+                name: spotlight_dishes
+                widget: list
+                field: { label: Dish Name, name: dish, widget: string }
+              - label: Menu Items
+                name: items
+                widget: list
+                fields:
+                  - { label: Dish Name, name: name, widget: string }
+                  - { label: Description, name: description, widget: text }
+                  - { label: Category / Tags, name: category, widget: string }
+                  - { label: Vegetarian?, name: veg, widget: boolean, default: true }
+
+          # ── Packages ──
+          - label: Packages
+            name: packages
+            widget: list
+            fields:
+              - { label: Package Name, name: name, widget: string }
+              - { label: Icon (emoji), name: icon, widget: string }
+              - { label: Guest Range, name: guests, widget: string }
+              - { label: Description, name: description, widget: text }
+              - { label: Highlight as Most Popular?, name: featured, widget: boolean, default: false }
+              - label: Included Features
+                name: features
+                widget: list
+                field: { label: Feature, name: feature, widget: string }
+
+          # ── Testimonials ──
+          - label: Testimonials
+            name: testimonials
+            widget: list
+            fields:
+              - { label: Client Name, name: name, widget: string }
+              - { label: Event Type & Size, name: event, widget: string }
+              - { label: Quote, name: quote, widget: text }
+              - { label: Initial (letter for avatar), name: initial, widget: string }
+              - { label: Avatar Colour, name: color, widget: color }
+
+          # ── Event Types (dropdown in contact form) ──
+          - label: Event Types (Contact Form)
+            name: events
+            widget: list
+            field: { label: Event Type, name: event, widget: string }

@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Let's Eat &amp; Greet Ltd — Indian Catering · Hayes, London</title>
+  <meta name="description" content="Indian catering specialists based in Hayes. Vegetarian & non-vegetarian menus. Experts in housewarming ceremonies, South Indian & Vijayawada cuisine. 20–150 guests." />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --saffron: #E8720C; --gold: #C8960A; --cream: #FFF9F2;
+      --dark: #1C1408; --muted: #5C4A32; --green: #2A7535; --red: #B71C1C;
+      --radius: 10px; --shadow: 0 3px 18px rgba(0,0,0,.10);
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--cream); color: var(--dark); line-height: 1.65; }
+    a { color: inherit; text-decoration: none; }
+
+    /* Loading state */
+    #page-loader {
+      position: fixed; inset: 0; background: var(--cream);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 9999; transition: opacity .4s;
+    }
+    .loader-spinner {
+      width: 40px; height: 40px; border: 3px solid #f0e0d0;
+      border-top-color: var(--saffron); border-radius: 50%;
+      animation: spin .8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Nav */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(28,20,8,.96); backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: .85rem 2rem;
+    }
+    .nav-logo { display: flex; align-items: center; gap: .6rem; }
+    .nav-logo img { height: 40px; width: auto; object-fit: contain; }
+    .nav-logo-text { font-size: 1.3rem; font-weight: 800; color: var(--saffron); }
+    .nav-logo-text span { color: #fff; font-weight: 400; }
+    .nav-links { display: flex; gap: 1.8rem; list-style: none; }
+    .nav-links a { color: #ccc; font-size: .9rem; transition: color .2s; }
+    .nav-links a:hover { color: var(--saffron); }
+    .nav-cta { background: var(--saffron); color: #fff !important; padding: .4rem 1.1rem; border-radius: 50px; font-weight: 700; font-size: .88rem; }
+    .nav-cta:hover { background: var(--gold) !important; }
+
+    /* Hero */
+    .hero {
+      min-height: 88vh;
+      background: linear-gradient(135deg, rgba(28,20,8,.78) 0%, rgba(232,114,12,.3) 100%),
+        url('https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a?w=1400&q=80') center/cover no-repeat;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center; padding: 2rem;
+    }
+    .hero-content { max-width: 700px; }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.25);
+      color: #f5dbb0; font-size: .8rem; font-weight: 600; letter-spacing: .06em;
+      text-transform: uppercase; padding: .35rem 1rem; border-radius: 50px; margin-bottom: 1.2rem;
+    }
+    .hero h1 { font-size: clamp(2.2rem, 5.5vw, 3.6rem); color: #fff; font-weight: 800; line-height: 1.15; margin-bottom: .9rem; }
+    .hero h1 em { color: var(--saffron); font-style: normal; }
+    .hero p { font-size: 1.08rem; color: #ddd3c4; margin-bottom: 2rem; }
+    .hero-actions { display: flex; gap: .9rem; justify-content: center; flex-wrap: wrap; }
+    .btn-primary { background: var(--saffron); color: #fff; padding: .75rem 1.9rem; border-radius: 50px; font-weight: 700; font-size: .95rem; transition: background .2s, transform .15s; }
+    .btn-primary:hover { background: var(--gold); transform: translateY(-2px); }
+    .btn-outline { border: 2px solid rgba(255,255,255,.7); color: #fff; padding: .7rem 1.9rem; border-radius: 50px; font-weight: 600; font-size: .95rem; transition: background .2s; }
+    .btn-outline:hover { background: rgba(255,255,255,.12); }
+
+    /* Shared */
+    section { padding: 4.5rem 2rem; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .sec-label { font-size: .74rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--saffron); margin-bottom: .5rem; display: block; }
+    h2 { font-size: clamp(1.7rem, 3.2vw, 2.4rem); font-weight: 800; line-height: 1.2; margin-bottom: .85rem; }
+    .sub { color: var(--muted); max-width: 540px; font-size: 1rem; }
+
+    /* Strip */
+    .strip { background: var(--saffron); color: #fff; text-align: center; padding: .85rem 2rem; font-size: .92rem; font-weight: 600; letter-spacing: .02em; }
+    .strip span { opacity: .7; margin: 0 1rem; }
+
+    /* About */
+    .about { background: #fff; }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+    .about-visual { border-radius: var(--radius); height: 400px; box-shadow: var(--shadow); background: linear-gradient(135deg,#E8720C,#C8960A 60%,#A0360A); display: flex; align-items: center; justify-content: center; font-size: 7rem; }
+    .about-features { margin-top: 1.6rem; display: flex; flex-direction: column; gap: .85rem; }
+    .fi { display: flex; align-items: flex-start; gap: .75rem; }
+    .fi-icon { width: 2rem; height: 2rem; min-width: 2rem; background: #FFF3E0; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 1rem; }
+    .fi h4 { font-size: .9rem; font-weight: 700; margin-bottom: .1rem; }
+    .fi p { font-size: .84rem; color: var(--muted); }
+
+    /* Veg indicators */
+    .veg-ind-wrap { display: flex; gap: 1rem; margin-top: .5rem; }
+    .veg-ind { display: inline-flex; align-items: center; gap: .35rem; font-size: .78rem; font-weight: 600; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+    .dot-veg { background: var(--green); }
+    .dot-nonveg { background: var(--red); }
+
+    /* Menu */
+    .menu-sec { background: var(--cream); }
+    .menu-header { text-align: center; margin-bottom: 2.5rem; }
+    .menu-header .sub { margin: 0 auto; }
+    .si-spotlight { background: linear-gradient(135deg,#1C1408,#3A2208); border-radius: var(--radius); padding: 2rem; margin-bottom: 2.5rem; color: #fff; }
+    .si-spotlight h3 { font-size: 1.2rem; font-weight: 800; color: var(--saffron); margin-bottom: .4rem; }
+    .si-spotlight p { font-size: .9rem; color: #ccc; margin-bottom: 1.2rem; }
+    .si-dishes { display: flex; flex-wrap: wrap; gap: .7rem; }
+    .si-chip { background: rgba(232,114,12,.2); border: 1px solid rgba(232,114,12,.4); color: #f5d090; font-size: .82rem; font-weight: 600; padding: .3rem .85rem; border-radius: 50px; }
+    .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 1.3rem; }
+    .menu-card { background: #fff; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); transition: transform .2s; }
+    .menu-card:hover { transform: translateY(-3px); }
+    .menu-card-img { height: 120px; position: relative; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; }
+    .type-badge { position: absolute; top: .7rem; right: .7rem; background: #fff; border-radius: 4px; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; }
+    .type-badge .dot { width: 9px; height: 9px; }
+    .menu-card-body { padding: 1rem 1.1rem 1.3rem; }
+    .menu-card-body h3 { font-size: .98rem; font-weight: 700; margin-bottom: .25rem; }
+    .menu-card-body p { font-size: .82rem; color: var(--muted); margin-bottom: .5rem; }
+    .mc-tag { font-size: .75rem; color: var(--muted); }
+
+    /* dish colours */
+    .d1{background:linear-gradient(135deg,#E8720C,#C8960A)}.d2{background:linear-gradient(135deg,#27AE60,#1E8449)}.d3{background:linear-gradient(135deg,#8E44AD,#6C3483)}.d4{background:linear-gradient(135deg,#16A085,#117A65)}.d5{background:linear-gradient(135deg,#D35400,#A04000)}.d6{background:linear-gradient(135deg,#2C3E50,#1A252F)}.d7{background:linear-gradient(135deg,#C0392B,#922B21)}.d8{background:linear-gradient(135deg,#1A5276,#154360)}.d9{background:linear-gradient(135deg,#7D6608,#9A7D0A)}
+
+    /* Packages */
+    .packages { background: #fff; }
+    .pkg-header { text-align: center; margin-bottom: 2.5rem; }
+    .pkg-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 1.6rem; }
+    .pkg-card { border: 2px solid #eddfd0; border-radius: var(--radius); padding: 1.8rem; position: relative; transition: border-color .2s, transform .2s; }
+    .pkg-card:hover { border-color: var(--saffron); transform: translateY(-3px); }
+    .pkg-card.featured { border-color: var(--saffron); background: #FFF9F2; }
+    .pkg-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--saffron); color: #fff; font-size: .7rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; padding: .25rem .85rem; border-radius: 50px; }
+    .pkg-icon { font-size: 2rem; margin-bottom: .7rem; }
+    .pkg-card h3 { font-size: 1.15rem; font-weight: 800; margin-bottom: .25rem; }
+    .pkg-guests { font-size: .82rem; color: var(--muted); margin-bottom: .6rem; }
+    .pkg-desc { font-size: .86rem; color: var(--muted); margin-bottom: .8rem; }
+    .pkg-features { list-style: none; display: flex; flex-direction: column; gap: .45rem; }
+    .pkg-features li { font-size: .87rem; display: flex; gap: .45rem; align-items: baseline; }
+    .pkg-features li::before { content: "✓"; color: var(--green); font-weight: 700; font-size: .85rem; }
+
+    /* Housewarming */
+    .hw-banner { background: linear-gradient(135deg,#3A2208,#1C1408); border-radius: var(--radius); padding: 2.2rem 2.5rem; display: flex; align-items: center; gap: 2rem; margin-top: 2rem; color: #fff; }
+    .hw-icon { font-size: 3.5rem; flex-shrink: 0; }
+    .hw-text h3 { font-size: 1.3rem; font-weight: 800; color: var(--saffron); margin-bottom: .4rem; }
+    .hw-text p { font-size: .9rem; color: #ccc; }
+
+    /* Gallery */
+    .gallery { background: var(--cream); }
+    .gal-header { text-align: center; margin-bottom: 2rem; }
+    .gal-grid { display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: 200px 200px; gap: .9rem; }
+    .gal-item { border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); display: flex; align-items: center; justify-content: center; font-size: 3.5rem; }
+    .gal-item:first-child { grid-column: span 2; grid-row: span 2; font-size: 5rem; }
+    .gal-item:nth-child(4) { grid-column: span 2; }
+    .g1{background:linear-gradient(135deg,#E8720C,#C8960A)}.g2{background:linear-gradient(135deg,#C0392B,#E74C3C)}.g3{background:linear-gradient(135deg,#27AE60,#2ECC71)}.g4{background:linear-gradient(135deg,#8E44AD,#9B59B6)}.g5{background:linear-gradient(135deg,#16A085,#1ABC9C)}
+
+    /* Testimonials */
+    .testimonials { background: var(--dark); color: #fff; }
+    .test-header { text-align: center; margin-bottom: 3rem; }
+    .test-header h2 { color: #fff; }
+    .test-header .sub { color: #bbb; margin: 0 auto; }
+    .test-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+    .test-card { background: rgba(255,255,255,.07); border-radius: var(--radius); padding: 1.8rem; border: 1px solid rgba(255,255,255,.1); }
+    .stars { color: var(--gold); font-size: 1rem; margin-bottom: .8rem; }
+    .test-card blockquote { font-size: .92rem; color: #ccc; margin-bottom: 1.2rem; font-style: italic; }
+    .test-author { display: flex; align-items: center; gap: .8rem; }
+    .avatar { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1rem; color: #fff; }
+    .test-author-info strong { display: block; font-size: .9rem; }
+    .test-author-info span { font-size: .78rem; color: #999; }
+
+    /* Contact */
+    .contact { background: #fff; }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+    .c-items { display: flex; flex-direction: column; gap: 1.1rem; margin-top: 1.5rem; }
+    .c-item { display: flex; align-items: flex-start; gap: .9rem; }
+    .c-icon { width: 2.3rem; height: 2.3rem; min-width: 2.3rem; background: #FFF3E0; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 1rem; }
+    .c-item h4 { font-weight: 700; font-size: .87rem; margin-bottom: .1rem; }
+    .c-item p { font-size: .84rem; color: var(--muted); margin: 0; }
+    .c-form { display: flex; flex-direction: column; gap: .9rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: .9rem; }
+    .fg { display: flex; flex-direction: column; gap: .35rem; }
+    .fg label { font-size: .82rem; font-weight: 600; color: var(--muted); }
+    .fg input, .fg select, .fg textarea { padding: .7rem .95rem; border: 1.5px solid #e4d8ca; border-radius: 7px; font-size: .92rem; font-family: inherit; background: var(--cream); transition: border-color .2s; outline: none; }
+    .fg input:focus, .fg select:focus, .fg textarea:focus { border-color: var(--saffron); }
+    .fg textarea { resize: vertical; min-height: 100px; }
+    .form-submit { background: var(--saffron); color: #fff; padding: .8rem 1.9rem; border: none; border-radius: 50px; font-size: .95rem; font-weight: 700; cursor: pointer; transition: background .2s; align-self: flex-start; }
+    .form-submit:hover { background: var(--gold); }
+
+    /* Footer */
+    footer { background: var(--dark); color: #999; padding: 2.8rem 2rem 1.4rem; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 2rem; max-width: 1100px; margin: 0 auto 1.8rem; }
+    .footer-brand .footer-logo { display: flex; align-items: center; gap: .5rem; margin-bottom: .7rem; }
+    .footer-brand .footer-logo img { height: 36px; width: auto; }
+    .footer-brand .footer-logo-text { font-size: 1.2rem; font-weight: 800; color: var(--saffron); }
+    .footer-brand .footer-logo-text span { color: #fff; font-weight: 400; }
+    .footer-brand p { font-size: .84rem; line-height: 1.7; }
+    .footer-addr { font-size: .78rem; color: #777; margin-top: .6rem; line-height: 1.6; }
+    .fc h4 { color: #fff; font-size: .86rem; margin-bottom: .85rem; }
+    .fc ul { list-style: none; display: flex; flex-direction: column; gap: .45rem; }
+    .fc ul li a { font-size: .82rem; color: #999; transition: color .2s; }
+    .fc ul li a:hover { color: var(--saffron); }
+    .footer-bottom { max-width: 1100px; margin: 0 auto; border-top: 1px solid rgba(255,255,255,.07); padding-top: 1.1rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: .5rem; }
+    .footer-bottom p { font-size: .78rem; }
+    .socials { display: flex; gap: .7rem; }
+    .soc { width: 32px; height: 32px; border-radius: 7px; background: rgba(255,255,255,.07); display: flex; align-items: center; justify-content: center; font-size: .85rem; transition: background .2s; }
+    .soc:hover { background: var(--saffron); }
+
+    @media (max-width: 768px) {
+      nav { padding: .75rem 1rem; } .nav-links { display: none; }
+      .about-grid, .contact-grid { grid-template-columns: 1fr; }
+      .about-visual { height: 240px; }
+      .gal-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+      .gal-item:first-child { grid-column: span 2; height: 180px; }
+      .gal-item:nth-child(4) { grid-column: span 1; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .hw-banner { flex-direction: column; gap: 1rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="page-loader"><div class="loader-spinner"></div></div>
+
+<!-- Nav -->
+<nav>
+  <div class="nav-logo">
+    <img id="nav-logo-img" src="" alt="Let's Eat &amp; Greet logo" style="display:none;" />
+    <span class="nav-logo-text" id="nav-logo-text">Let's Eat <span>&amp; Greet</span></span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#packages">Packages</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#contact" class="nav-cta">Enquire</a></li>
+  </ul>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-content">
+    <span class="hero-tag" id="hero-badge">Housewarming Specialists · Indian Catering · Hayes, London</span>
+    <h1 id="hero-heading">Authentic Indian flavours<br />for every <em>celebration</em></h1>
+    <p id="hero-subtext">Vegetarian &amp; non-vegetarian catering from 20 to 150 guests.</p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">Get a Quote</a>
+      <a href="#menu" class="btn-outline">See Our Menu</a>
+    </div>
+  </div>
+</section>
+
+<!-- Strip -->
+<div class="strip" id="events-strip">
+  Housewarming Ceremonies <span>·</span> Weddings &amp; Receptions <span>·</span> Birthday Parties <span>·</span> Religious Ceremonies <span>·</span> Corporate Events
+</div>
+
+<!-- About -->
+<section class="about" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-visual">🍛</div>
+      <div>
+        <span class="sec-label">Who We Are</span>
+        <h2 id="about-heading">Home-style Indian cooking, served with warmth</h2>
+        <p class="sub" id="about-body"></p>
+        <div class="veg-ind-wrap" style="margin-top:.9rem;">
+          <span class="veg-ind"><span class="dot dot-veg"></span> Vegetarian (our speciality)</span>
+          <span class="veg-ind"><span class="dot dot-nonveg"></span> Non-vegetarian available</span>
+        </div>
+        <div class="about-features" id="about-features"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Menu -->
+<section class="menu-sec" id="menu">
+  <div class="container">
+    <div class="menu-header">
+      <span class="sec-label">Our Menu</span>
+      <h2>A taste of what we offer</h2>
+      <p class="sub">
+        All menus are fully customisable.
+        Vegetarian <span class="veg-ind" style="font-size:.85rem;vertical-align:middle;"><span class="dot dot-veg" style="width:8px;height:8px;"></span></span>
+        and non-vegetarian <span class="veg-ind" style="font-size:.85rem;vertical-align:middle;"><span class="dot dot-nonveg" style="width:8px;height:8px;"></span></span> options available.
+      </p>
+    </div>
+    <div class="si-spotlight">
+      <h3>South Indian &amp; Vijayawada Specialities</h3>
+      <p>Our signature South Indian menu — perfect for housewarmings, festivals &amp; religious ceremonies.</p>
+      <div class="si-dishes" id="spotlight-dishes"></div>
+    </div>
+    <div class="menu-grid" id="menu-grid"></div>
+    <p style="text-align:center;margin-top:1.8rem;font-size:.85rem;color:var(--muted);">
+      Menu is a sample only — fully customisable to your event &amp; budget.
+      <a href="#contact" style="color:var(--saffron);font-weight:600;">Contact us</a> for a tailored menu.
+    </p>
+  </div>
+</section>
+
+<!-- Packages -->
+<section class="packages" id="packages">
+  <div class="container">
+    <div class="pkg-header">
+      <span class="sec-label">Catering Packages</span>
+      <h2>Packages for every occasion</h2>
+      <p class="sub" style="margin:0 auto;">All packages include setup, service staff &amp; cleanup. We cater from <span id="cap-range">20 to 150</span> guests.</p>
+    </div>
+    <div class="hw-banner">
+      <div class="hw-icon">🏠</div>
+      <div class="hw-text">
+        <h3>Housewarming &amp; Griha Pravesham — Our Speciality</h3>
+        <p>From the auspicious first meal to sweet Bobbatlu and Paramannam, our housewarming menus honour every ritual — freshly prepared, lovingly served. Ask us for our dedicated housewarming menu when you enquire.</p>
+      </div>
+    </div>
+    <div class="pkg-grid" id="pkg-grid" style="margin-top:2rem;"></div>
+  </div>
+</section>
+
+<!-- Gallery -->
+<section class="gallery" id="gallery">
+  <div class="container">
+    <div class="gal-header">
+      <span class="sec-label">Our Events</span>
+      <h2>From our kitchen to your table</h2>
+    </div>
+    <div class="gal-grid">
+      <div class="gal-item g1">🍛</div>
+      <div class="gal-item g2">🌶️</div>
+      <div class="gal-item g3">🥞</div>
+      <div class="gal-item g4">🍮</div>
+      <div class="gal-item g5">🏠</div>
+    </div>
+    <p style="text-align:center;margin-top:1.2rem;font-size:.84rem;color:var(--muted);">📸 Replace placeholders with real event photos once available.</p>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section class="testimonials" id="testimonials">
+  <div class="container">
+    <div class="test-header">
+      <span class="sec-label" style="color:var(--gold);">What Clients Say</span>
+      <h2>Loved by guests across every event</h2>
+      <p class="sub">Real feedback from real celebrations.</p>
+    </div>
+    <div class="test-grid" id="test-grid"></div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section class="contact" id="contact">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="contact-info">
+        <span class="sec-label">Get in Touch</span>
+        <h2>Let's plan your event</h2>
+        <p class="sub">We'll reply within 24 hours with a personalised quote.</p>
+        <div class="c-items" id="contact-items"></div>
+      </div>
+      <form class="c-form" onsubmit="handleSubmit(event)">
+        <div class="form-row">
+          <div class="fg"><label>Your Name</label><input type="text" placeholder="Full name" required /></div>
+          <div class="fg"><label>Email</label><input type="email" placeholder="your@email.com" required /></div>
+        </div>
+        <div class="form-row">
+          <div class="fg"><label>Phone / WhatsApp</label><input type="tel" placeholder="+44 7..." /></div>
+          <div class="fg"><label>No. of Guests</label><input type="number" id="guests-input" placeholder="20 – 150" /></div>
+        </div>
+        <div class="fg">
+          <label>Event Type</label>
+          <select id="event-select"><option value="">Select…</option></select>
+        </div>
+        <div class="fg"><label>Event Date</label><input type="date" /></div>
+        <div class="fg"><label>Additional Details</label><textarea placeholder="Dietary requirements, preferred dishes, venue location…"></textarea></div>
+        <button type="submit" class="form-submit">Send Enquiry →</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="footer-logo">
+        <img id="footer-logo-img" src="" alt="Logo" style="display:none;" />
+        <span class="footer-logo-text" id="footer-logo-text">Let's Eat <span>&amp; Greet</span></span>
+      </div>
+      <p>Authentic Indian catering specialists — vegetarian &amp; non-vegetarian — based in Hayes, London.</p>
+      <p class="footer-addr" id="footer-addr"></p>
+    </div>
+    <div class="fc">
+      <h4>Navigate</h4>
+      <ul>
+        <li><a href="#about">About Us</a></li><li><a href="#menu">Menu</a></li>
+        <li><a href="#packages">Packages</a></li><li><a href="#gallery">Gallery</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="fc">
+      <h4>Cuisine</h4>
+      <ul>
+        <li><a href="#menu">South Indian</a></li><li><a href="#menu">Vijayawada Specials</a></li>
+        <li><a href="#menu">North Indian</a></li><li><a href="#menu">Sweets &amp; Desserts</a></li>
+        <li><a href="#menu">Non-Vegetarian</a></li>
+      </ul>
+    </div>
+    <div class="fc">
+      <h4>Events</h4>
+      <ul>
+        <li><a href="#packages">Housewarming</a></li><li><a href="#packages">Weddings</a></li>
+        <li><a href="#packages">Religious Ceremonies</a></li><li><a href="#packages">Birthdays</a></li>
+        <li><a href="#packages">Corporate</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p id="footer-copy">© 2025 LET'S EAT &amp; GREET LTD. All rights reserved. Registered in England &amp; Wales.</p>
+    <div class="socials">
+      <a class="soc" href="#" aria-label="Facebook">f</a>
+      <a class="soc" href="#" aria-label="Instagram">📸</a>
+      <a class="soc" href="#" aria-label="WhatsApp">💬</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const DISH_CLASSES = ['d1','d2','d3','d4','d5','d6','d7','d8','d9'];
+const DISH_EMOJIS  = ['🥙','🥞','🌶️','🍲','🍛','🍗','🫕','🍮','☕'];
+
+async function loadSite() {
+  try {
+    const res = await fetch('/content/settings.json');
+    const d   = await res.json();
+    applyContent(d);
+  } catch(e) {
+    console.warn('Could not load settings.json — using defaults.', e);
+  } finally {
+    hideLauncher();
+  }
+}
+
+function hideLauncher() {
+  const loader = document.getElementById('page-loader');
+  loader.style.opacity = '0';
+  setTimeout(() => loader.style.display = 'none', 400);
+}
+
+function applyContent(d) {
+  const s = d.site || {};
+
+  // ── Logo ──
+  const logoSrc = s.logo || '';
+  ['nav-logo-img','footer-logo-img'].forEach(id => {
+    const img = document.getElementById(id);
+    if (logoSrc && img) {
+      img.src = logoSrc;
+      img.style.display = 'block';
+      // hide text when logo present
+      const textId = id.replace('-img', '-text');
+      const txt = document.getElementById(textId);
+      if (txt) txt.style.display = 'none';
+    }
+  });
+
+  // ── Hero ──
+  const h = d.hero || {};
+  setText('hero-badge',   h.badge   || s.tagline || '');
+  setText('hero-heading', '');
+  document.getElementById('hero-heading').innerHTML =
+    (h.heading || 'Authentic Indian flavours for every <em>celebration</em>');
+  setText('hero-subtext', h.subtext || s.description || '');
+
+  // ── Capacity range ──
+  if (s.min_guests && s.max_guests)
+    setText('cap-range', `${s.min_guests} to ${s.max_guests}`);
+
+  // ── About ──
+  const ab = d.about || {};
+  setText('about-heading', ab.heading || '');
+  setText('about-body',    ab.body    || '');
+  const feats = ab.features || [];
+  document.getElementById('about-features').innerHTML = feats.map(f => `
+    <div class="fi">
+      <div class="fi-icon">${f.icon}</div>
+      <div><h4>${f.title}</h4><p>${f.detail}</p></div>
+    </div>`).join('');
+
+  // ── Spotlight dishes ──
+  const spots = (d.menu || {}).spotlight_dishes || [];
+  document.getElementById('spotlight-dishes').innerHTML =
+    spots.map(s => `<span class="si-chip">${s}</span>`).join('');
+
+  // ── Menu items ──
+  const items = (d.menu || {}).items || [];
+  document.getElementById('menu-grid').innerHTML = items.map((item, i) => `
+    <div class="menu-card">
+      <div class="menu-card-img ${DISH_CLASSES[i % DISH_CLASSES.length]}">
+        <span>${DISH_EMOJIS[i % DISH_EMOJIS.length]}</span>
+        <span class="type-badge"><span class="dot ${item.veg ? 'dot-veg' : 'dot-nonveg'}"></span></span>
+      </div>
+      <div class="menu-card-body">
+        <h3>${item.name}</h3>
+        <p>${item.description}</p>
+        <span class="mc-tag">${item.category} · ${item.veg ? 'Veg' : 'Non-veg'}</span>
+      </div>
+    </div>`).join('');
+
+  // ── Packages ──
+  const pkgs = d.packages || [];
+  document.getElementById('pkg-grid').innerHTML = pkgs.map(p => `
+    <div class="pkg-card ${p.featured ? 'featured' : ''}">
+      ${p.featured ? '<span class="pkg-badge">Most Booked</span>' : ''}
+      <div class="pkg-icon">${p.icon}</div>
+      <h3>${p.name}</h3>
+      <p class="pkg-guests">${p.guests}</p>
+      <p class="pkg-desc">${p.description}</p>
+      <ul class="pkg-features">${(p.features||[]).map(f=>`<li>${f}</li>`).join('')}</ul>
+    </div>`).join('');
+
+  // ── Testimonials ──
+  const tests = d.testimonials || [];
+  document.getElementById('test-grid').innerHTML = tests.map(t => `
+    <div class="test-card">
+      <div class="stars">★★★★★</div>
+      <blockquote>"${t.quote}"</blockquote>
+      <div class="test-author">
+        <div class="avatar" style="background:${t.color}">${t.initial}</div>
+        <div class="test-author-info">
+          <strong>${t.name}</strong>
+          <span>${t.event}</span>
+        </div>
+      </div>
+    </div>`).join('');
+
+  // ── Contact info ──
+  const phone = s.phone || '';
+  document.getElementById('contact-items').innerHTML = `
+    <div class="c-item"><div class="c-icon">📞</div><div><h4>Phone / WhatsApp</h4><p>${phone || 'Coming soon'}</p></div></div>
+    <div class="c-item"><div class="c-icon">✉️</div><div><h4>Email</h4><p>${s.email||''}</p></div></div>
+    <div class="c-item"><div class="c-icon">📍</div><div><h4>Registered Office</h4><p>${s.address||''}</p><p style="font-size:.78rem;margin-top:.15rem;">${s.company||''}</p></div></div>
+    <div class="c-item"><div class="c-icon">👥</div><div><h4>We Cater For</h4><p>${s.min_guests||20} to ${s.max_guests||150} guests · ${s.service_area||''}</p></div></div>
+    <div class="c-item"><div class="c-icon">⏰</div><div><h4>Enquiries</h4><p>${s.hours||''}</p></div></div>`;
+
+  // ── Guests input range ──
+  const gi = document.getElementById('guests-input');
+  gi.min = s.min_guests || 20; gi.max = s.max_guests || 150;
+  gi.placeholder = `${s.min_guests||20} – ${s.max_guests||150}`;
+
+  // ── Event type dropdown ──
+  const sel = document.getElementById('event-select');
+  (d.events||[]).forEach(ev => {
+    const opt = document.createElement('option'); opt.textContent = ev; sel.appendChild(opt);
+  });
+
+  // ── Footer ──
+  document.getElementById('footer-addr').innerHTML =
+    `${s.company||''}<br/>${s.address||''}<br/>Registered in England &amp; Wales`;
+  document.getElementById('footer-copy').innerHTML =
+    `© ${new Date().getFullYear()} ${s.company||"LET'S EAT &amp; GREET LTD"}. All rights reserved. Registered in England &amp; Wales.`;
+}
+
+function setText(id, val) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = val;
+}
+
+function handleSubmit(e) {
+  e.preventDefault();
+  const btn = e.target.querySelector('.form-submit');
+  btn.textContent = '✓ Sent! We\'ll be in touch within 24 hours.';
+  btn.style.background = '#2A7535';
+  btn.disabled = true;
+}
+
+loadSite();
+</script>
+</body>
+</html>
