@@ -42,13 +42,21 @@ export default {
         : { error: data.error_description || 'Authentication failed' };
 
       // Post message back to Decap CMS opener window
-      const postMsg = JSON.stringify(
-        'authorization:github:' + status + ':' + JSON.stringify(payload)
-      );
+      const msgStr = 'authorization:github:' + status + ':' + JSON.stringify(payload);
 
       const html = `<!DOCTYPE html><html><body><script>
-        window.opener.postMessage(${postMsg}, '*');
-        window.close();
+        (function() {
+          var msg = ${JSON.stringify(msgStr)};
+          function send() {
+            if (window.opener) {
+              window.opener.postMessage(msg, '*');
+              setTimeout(function() { window.close(); }, 500);
+            } else {
+              setTimeout(send, 100);
+            }
+          }
+          send();
+        })();
       </script></body></html>`;
 
       return new Response(html, {
