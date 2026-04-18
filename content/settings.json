@@ -6,7 +6,7 @@
     "logo": "/public/logo.png",
     "email": "hello@letseatandgreet.com",
     "phone": "",
-    "address": "115 Cromwell Road, Hayes, England, UB3",
+    "address": "Cromwell Road, Hayes, England, UB3 2SR",
     "company": "LET'S EAT & GREET LTD",
     "service_area": "Greater London & surrounding areas",
     "min_guests": 20,
@@ -22,10 +22,26 @@
     "heading": "Home-style Indian cooking, served with warmth",
     "body": "Let's Eat & Greet Ltd is a Hayes-based catering company specialising in authentic Indian cuisine. We serve both vegetarian and non-vegetarian menus, with a particular passion for vegetarian cooking rooted in South Indian tradition.",
     "features": [
-      { "icon": "🏠", "title": "Housewarming Experts", "detail": "We specialise in griha pravesham & housewarming feasts — traditional menus, perfect portions." },
-      { "icon": "🌶️", "title": "South Indian & Vijayawada Cuisine", "detail": "Bobbatlu, Karam Mirchi bajji, Vijayawada street snacks & more regional delicacies." },
-      { "icon": "👥", "title": "20 to 150 Guests", "detail": "Intimate family gatherings or large community celebrations — we scale to your event." },
-      { "icon": "📍", "title": "Based in Hayes, London", "detail": "Serving Greater London & surrounding areas from our registered kitchen in Hayes." }
+      {
+        "icon": "🏠",
+        "title": "Housewarming Experts",
+        "detail": "We specialise in griha pravesham & housewarming feasts — traditional menus, perfect portions."
+      },
+      {
+        "icon": "🌶️",
+        "title": "South Indian & Vijayawada Cuisine",
+        "detail": "Bobbatlu, Karam Mirchi bajji, Vijayawada street snacks & more regional delicacies."
+      },
+      {
+        "icon": "👥",
+        "title": "20 to 150 Guests",
+        "detail": "Intimate family gatherings or large community celebrations — we scale to your event."
+      },
+      {
+        "icon": "📍",
+        "title": "Based in Hayes, London",
+        "detail": "Serving Greater London & surrounding areas from our registered kitchen in Hayes."
+      }
     ]
   },
   "menu": {
@@ -42,15 +58,60 @@
       "Filter Coffee"
     ],
     "items": [
-      { "name": "Paneer Tikka", "description": "Marinated cottage cheese grilled with peppers & onions. Served with mint chutney.", "category": "Starter", "veg": true },
-      { "name": "Bobbatlu (Puran Poli)", "description": "Sweet flatbread stuffed with chana dal & jaggery — a traditional South Indian housewarming staple.", "category": "Sweet · South Indian", "veg": true },
-      { "name": "Karam Mirchi Bajji", "description": "Vijayawada's famous stuffed green chilli fritters — crispy, spicy & utterly addictive.", "category": "Snack · Vijayawada Special", "veg": true },
-      { "name": "Dal Tadka & Sambar", "description": "Slow-cooked lentils tempered with mustard, curry leaves & dried chilli — served with rice.", "category": "Main · South Indian", "veg": true },
-      { "name": "Vegetable Dum Biryani", "description": "Fragrant basmati rice slow-cooked with seasonal vegetables, saffron & whole spices.", "category": "Main · Signature", "veg": true },
-      { "name": "Chicken Biryani", "description": "Tender chicken pieces layered with basmati rice, fried onions & aromatic whole spices.", "category": "Main", "veg": false },
-      { "name": "Paneer Butter Masala", "description": "Rich tomato-cream gravy with soft cottage cheese cubes — a consistent crowd favourite.", "category": "Main · North Indian", "veg": true },
-      { "name": "Paramannam & Gulab Jamun", "description": "Traditional sweet rice pudding alongside syrup-soaked milk dumplings.", "category": "Dessert · South Indian", "veg": true },
-      { "name": "South Indian Filter Coffee", "description": "Strong, frothy decoction coffee — the perfect close to any South Indian feast.", "category": "Beverage", "veg": true }
+      {
+        "name": "Paneer Tikka",
+        "description": "Marinated cottage cheese grilled with peppers & onions. Served with mint chutney.",
+        "category": "Starter",
+        "veg": true
+      },
+      {
+        "name": "Bobbatlu (Puran Poli)",
+        "description": "Sweet flatbread stuffed with chana dal & jaggery — a traditional South Indian housewarming staple.",
+        "category": "Sweet · South Indian",
+        "veg": true
+      },
+      {
+        "name": "Karam Mirchi Bajji",
+        "description": "Vijayawada's famous stuffed green chilli fritters — crispy, spicy & utterly addictive.",
+        "category": "Snack · Vijayawada Special",
+        "veg": true
+      },
+      {
+        "name": "Dal Tadka & Sambar",
+        "description": "Slow-cooked lentils tempered with mustard, curry leaves & dried chilli — served with rice.",
+        "category": "Main · South Indian",
+        "veg": true
+      },
+      {
+        "name": "Vegetable Dum Biryani",
+        "description": "Fragrant basmati rice slow-cooked with seasonal vegetables, saffron & whole spices.",
+        "category": "Main · Signature",
+        "veg": true
+      },
+      {
+        "name": "Chicken Biryani",
+        "description": "Tender chicken pieces layered with basmati rice, fried onions & aromatic whole spices.",
+        "category": "Main",
+        "veg": false
+      },
+      {
+        "name": "Paneer Butter Masala",
+        "description": "Rich tomato-cream gravy with soft cottage cheese cubes — a consistent crowd favourite.",
+        "category": "Main · North Indian",
+        "veg": true
+      },
+      {
+        "name": "Paramannam & Gulab Jamun",
+        "description": "Traditional sweet rice pudding alongside syrup-soaked milk dumplings.",
+        "category": "Dessert · South Indian",
+        "veg": true
+      },
+      {
+        "name": "South Indian Filter Coffee",
+        "description": "Strong, frothy decoction coffee — the perfect close to any South Indian feast.",
+        "category": "Beverage",
+        "veg": true
+      }
     ]
   },
   "packages": [
@@ -101,9 +162,35 @@
     }
   ],
   "testimonials": [
-    { "name": "Priya Sharma", "event": "Housewarming — 45 guests", "quote": "The Bobbatlu and filter coffee were exactly like home. Every guest loved the food — Eat & Greet made our griha pravesham truly special.", "initial": "P", "color": "#E8720C" },
-    { "name": "Raj Mehta", "event": "Corporate Event — 80 guests", "quote": "Organised, punctual, and the food quality was restaurant-level. The Karam Mirchi Bajji counter was a massive hit.", "initial": "R", "color": "#2A7535" },
-    { "name": "Anita & Karthik", "event": "Naming Ceremony — 60 guests", "quote": "The South Indian spread was incredible — Paramannam, Pulihora, Sambar — everything tasted authentic and fresh.", "initial": "A", "color": "#8E44AD" }
+    {
+      "name": "Priya Sharma",
+      "event": "Housewarming — 45 guests",
+      "quote": "The Bobbatlu and filter coffee were exactly like home. Every guest loved the food — Eat & Greet made our griha pravesham truly special.",
+      "initial": "P",
+      "color": "#E8720C"
+    },
+    {
+      "name": "Raj Mehta",
+      "event": "Corporate Event — 80 guests",
+      "quote": "Organised, punctual, and the food quality was restaurant-level. The Karam Mirchi Bajji counter was a massive hit.",
+      "initial": "R",
+      "color": "#2A7535"
+    },
+    {
+      "name": "Anita & Karthik",
+      "event": "Naming Ceremony — 60 guests",
+      "quote": "The South Indian spread was incredible — Paramannam, Pulihora, Sambar — everything tasted authentic and fresh.",
+      "initial": "A",
+      "color": "#8E44AD"
+    }
   ],
-  "events": ["Housewarming / Griha Pravesham", "Wedding / Reception", "Birthday / Anniversary", "Naming / Religious Ceremony", "Corporate Event", "Private Dinner", "Other"]
+  "events": [
+    "Housewarming / Griha Pravesham",
+    "Wedding / Reception",
+    "Birthday / Anniversary",
+    "Naming / Religious Ceremony",
+    "Corporate Event",
+    "Private Dinner",
+    "Other"
+  ]
 }
