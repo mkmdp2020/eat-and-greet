@@ -1,7 +1,10 @@
 backend:
   name: github
   repo: mkmdp2020/eat-and-greet
-  branch: main
+  branch: master
+  site_domain: letseatandgreet.com
+  base_url: https://letseatandgreet.com
+  auth_endpoint: /api/auth
 
 media_folder: public
 public_folder: /public
