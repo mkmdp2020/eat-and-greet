@@ -1,0 +1,6 @@
+name = "eat-and-greet"
+compatibility_date = "2024-04-18"
+main = "worker.js"
+
+[assets]
+directory = "."
