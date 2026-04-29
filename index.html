@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Let's Eat &amp; Greet Ltd — Indian Catering · Hayes, London</title>
   <meta name="description" content="Indian catering specialists based in Hayes. Vegetarian & non-vegetarian menus. Experts in housewarming ceremonies, South Indian & Vijayawada cuisine. 20–150 guests. letseatandgreet.com" />
+  <link rel="preconnect" href="https://images.unsplash.com" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -65,8 +66,12 @@
     .hero h1 em { color: var(--saffron); font-style: normal; }
     .hero p { font-size: 1.08rem; color: #ddd3c4; margin-bottom: 2rem; }
     .hero-actions { display: flex; gap: .9rem; justify-content: center; flex-wrap: wrap; }
-    .btn-primary { background: var(--saffron); color: #fff; padding: .75rem 1.9rem; border-radius: 50px; font-weight: 700; font-size: .95rem; transition: background .2s, transform .15s; }
-    .btn-primary:hover { background: var(--gold); transform: translateY(-2px); }
+    .btn-primary { background: var(--saffron); color: #fff; padding: .75rem 1.9rem; border-radius: 50px; font-weight: 700; font-size: .95rem; transition: background .2s; }
+    .btn-primary:hover { background: var(--gold); }
+    @media (prefers-reduced-motion: no-preference) {
+      .btn-primary { transition: background .2s, transform .15s; }
+      .btn-primary:hover { transform: translateY(-2px); }
+    }
     .btn-outline { border: 2px solid rgba(255,255,255,.7); color: #fff; padding: .7rem 1.9rem; border-radius: 50px; font-weight: 600; font-size: .95rem; transition: background .2s; }
     .btn-outline:hover { background: rgba(255,255,255,.12); }
 
@@ -74,7 +79,7 @@
     section { padding: 4.5rem 2rem; }
     .container { max-width: 1100px; margin: 0 auto; }
     .sec-label { font-size: .74rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--saffron); margin-bottom: .5rem; display: block; }
-    h2 { font-size: clamp(1.7rem, 3.2vw, 2.4rem); font-weight: 800; line-height: 1.2; margin-bottom: .85rem; }
+    h2 { font-size: clamp(1.7rem, 3.2vw, 2.4rem); font-weight: 800; line-height: 1.2; margin-bottom: .85rem; text-wrap: balance; }
     .sub { color: var(--muted); max-width: 540px; font-size: 1rem; }
 
     /* Strip */
@@ -108,8 +113,11 @@
     .si-dishes { display: flex; flex-wrap: wrap; gap: .7rem; }
     .si-chip { background: rgba(232,114,12,.2); border: 1px solid rgba(232,114,12,.4); color: #f5d090; font-size: .82rem; font-weight: 600; padding: .3rem .85rem; border-radius: 50px; }
     .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 1.3rem; }
-    .menu-card { background: #fff; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); transition: transform .2s; }
-    .menu-card:hover { transform: translateY(-3px); }
+    .menu-card { background: #fff; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
+    @media (prefers-reduced-motion: no-preference) {
+      .menu-card { transition: transform .2s; }
+      .menu-card:hover { transform: translateY(-3px); }
+    }
     .menu-card-img { height: 120px; position: relative; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; }
     .type-badge { position: absolute; top: .7rem; right: .7rem; background: #fff; border-radius: 4px; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; }
     .type-badge .dot { width: 9px; height: 9px; }
@@ -125,8 +133,12 @@
     .packages { background: #fff; }
     .pkg-header { text-align: center; margin-bottom: 2.5rem; }
     .pkg-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 1.6rem; }
-    .pkg-card { border: 2px solid #eddfd0; border-radius: var(--radius); padding: 1.8rem; position: relative; transition: border-color .2s, transform .2s; }
-    .pkg-card:hover { border-color: var(--saffron); transform: translateY(-3px); }
+    .pkg-card { border: 2px solid #eddfd0; border-radius: var(--radius); padding: 1.8rem; position: relative; transition: border-color .2s; }
+    .pkg-card:hover { border-color: var(--saffron); }
+    @media (prefers-reduced-motion: no-preference) {
+      .pkg-card { transition: border-color .2s, transform .2s; }
+      .pkg-card:hover { transform: translateY(-3px); }
+    }
     .pkg-card.featured { border-color: var(--saffron); background: #FFF9F2; }
     .pkg-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--saffron); color: #fff; font-size: .7rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; padding: .25rem .85rem; border-radius: 50px; }
     .pkg-icon { font-size: 2rem; margin-bottom: .7rem; }
@@ -180,6 +192,7 @@
     .fg label { font-size: .82rem; font-weight: 600; color: var(--muted); }
     .fg input, .fg select, .fg textarea { padding: .7rem .95rem; border: 1.5px solid #e4d8ca; border-radius: 7px; font-size: .92rem; font-family: inherit; background: var(--cream); transition: border-color .2s; outline: none; }
     .fg input:focus, .fg select:focus, .fg textarea:focus { border-color: var(--saffron); }
+    .fg input:focus-visible, .fg select:focus-visible, .fg textarea:focus-visible { outline: 2px solid var(--saffron); outline-offset: 2px; }
     .fg textarea { resize: vertical; min-height: 100px; }
     .form-submit { background: var(--saffron); color: #fff; padding: .8rem 1.9rem; border: none; border-radius: 50px; font-size: .95rem; font-weight: 700; cursor: pointer; transition: background .2s; align-self: flex-start; }
     .form-submit:hover { background: var(--gold); }
@@ -203,8 +216,20 @@
     .soc { width: 32px; height: 32px; border-radius: 7px; background: rgba(255,255,255,.07); display: flex; align-items: center; justify-content: center; font-size: .85rem; transition: background .2s; }
     .soc:hover { background: var(--saffron); }
 
+    .nav-hamburger {
+      display: none; background: none; border: none; cursor: pointer;
+      padding: .4rem; color: #fff; flex-direction: column; gap: 5px;
+    }
+    .nav-hamburger span { display: block; width: 22px; height: 2px; background: #fff; border-radius: 2px; transition: opacity .2s; }
+    .nav-hamburger:focus-visible { outline: 2px solid var(--saffron); outline-offset: 3px; border-radius: 4px; }
     @media (max-width: 768px) {
-      nav { padding: .75rem 1rem; } .nav-links { display: none; }
+      nav { padding: .75rem 1rem; }
+      .nav-hamburger { display: flex; }
+      .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: rgba(28,20,8,.98); flex-direction: column; gap: 0; padding: .5rem 0; }
+      .nav-links.open { display: flex; }
+      .nav-links li { border-bottom: 1px solid rgba(255,255,255,.07); }
+      .nav-links a { display: block; padding: .85rem 1.5rem; font-size: 1rem; }
+      .nav-cta { margin: .5rem 1.5rem; border-radius: 50px; text-align: center; }
       .about-grid, .contact-grid { grid-template-columns: 1fr; }
       .about-visual { height: 240px; }
       .gal-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
@@ -223,16 +248,19 @@
 <!-- Nav -->
 <nav>
   <div class="nav-logo">
-    <img id="nav-logo-img" src="" alt="Let's Eat &amp; Greet logo" style="display:none;" />
+    <img id="nav-logo-img" alt="Let's Eat &amp; Greet logo" style="display:none;" />
     <span class="nav-logo-text" id="nav-logo-text">Let's Eat <span>&amp; Greet</span></span>
   </div>
-  <ul class="nav-links">
+  <ul class="nav-links" id="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#menu">Menu</a></li>
     <li><a href="#packages">Packages</a></li>
     <li><a href="#gallery">Gallery</a></li>
     <li><a href="#contact" class="nav-cta">Enquire</a></li>
   </ul>
+  <button class="nav-hamburger" id="nav-hamburger" aria-label="Open navigation menu" aria-expanded="false" aria-controls="nav-links">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
 <!-- Hero -->
@@ -358,19 +386,19 @@
       </div>
       <form class="c-form" onsubmit="handleSubmit(event)">
         <div class="form-row">
-          <div class="fg"><label>Your Name</label><input type="text" placeholder="Full name" required /></div>
-          <div class="fg"><label>Email</label><input type="email" placeholder="your@email.com" required /></div>
+          <div class="fg"><label for="f-name">Your Name</label><input id="f-name" type="text" placeholder="Full name" autocomplete="name" required /></div>
+          <div class="fg"><label for="f-email">Email</label><input id="f-email" type="email" placeholder="your@email.com" autocomplete="email" required /></div>
         </div>
         <div class="form-row">
-          <div class="fg"><label>Phone / WhatsApp</label><input type="tel" placeholder="+44 7..." /></div>
-          <div class="fg"><label>No. of Guests</label><input type="number" id="guests-input" placeholder="20 – 150" /></div>
+          <div class="fg"><label for="f-phone">Phone / WhatsApp</label><input id="f-phone" type="tel" placeholder="+44 7..." autocomplete="tel" /></div>
+          <div class="fg"><label for="guests-input">No. of Guests</label><input type="number" id="guests-input" placeholder="20 – 150" /></div>
         </div>
         <div class="fg">
-          <label>Event Type</label>
+          <label for="event-select">Event Type</label>
           <select id="event-select"><option value="">Select…</option></select>
         </div>
-        <div class="fg"><label>Event Date</label><input type="date" /></div>
-        <div class="fg"><label>Additional Details</label><textarea placeholder="Dietary requirements, preferred dishes, venue location…"></textarea></div>
+        <div class="fg"><label for="f-date">Event Date</label><input id="f-date" type="date" /></div>
+        <div class="fg"><label for="f-details">Additional Details</label><textarea id="f-details" placeholder="Dietary requirements, preferred dishes, venue location…"></textarea></div>
         <button type="submit" class="form-submit">Send Enquiry →</button>
       </form>
     </div>
@@ -382,7 +410,7 @@
   <div class="footer-grid">
     <div class="footer-brand">
       <div class="footer-logo">
-        <img id="footer-logo-img" src="" alt="Logo" style="display:none;" />
+        <img id="footer-logo-img" alt="Let's Eat &amp; Greet logo" style="display:none;" />
         <span class="footer-logo-text" id="footer-logo-text">Let's Eat <span>&amp; Greet</span></span>
       </div>
       <p>Authentic Indian catering specialists — vegetarian &amp; non-vegetarian — based in Hayes, London.</p>
@@ -573,6 +601,26 @@ function handleSubmit(e) {
 }
 
 loadSite();
+
+// Hamburger nav toggle
+(function() {
+  const btn   = document.getElementById('nav-hamburger');
+  const links = document.getElementById('nav-links');
+  if (!btn || !links) return;
+  btn.addEventListener('click', function() {
+    const open = links.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    btn.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
+  });
+  // Close menu when a nav link is clicked
+  links.addEventListener('click', function(e) {
+    if (e.target.tagName === 'A') {
+      links.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+      btn.setAttribute('aria-label', 'Open navigation menu');
+    }
+  });
+})();
 </script>
 </body>
 </html>
